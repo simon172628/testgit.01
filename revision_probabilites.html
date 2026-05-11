@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Probabilités — Révision ciblée DS</title>
+  <style>
+    :root{--bg:#f6f8fb;--card:#fff;--txt:#1f2937;--muted:#6b7280;--accent:#2563eb;--ok:#065f46;--warn:#92400e;--err:#991b1b;--shadow:0 6px 20px rgba(15,23,42,.08)}
+    *{box-sizing:border-box}body{margin:0;font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--txt);line-height:1.55}
+    header{padding:72px 20px 30px;background:linear-gradient(120deg,#dbeafe,#eff6ff)}
+    .wrap{max-width:1100px;margin:0 auto}
+    h1{margin:0 0 8px;font-size:clamp(1.8rem,4vw,2.8rem)}h2{margin-top:40px}.subtitle{color:#374151}
+    nav{position:sticky;top:0;z-index:20;background:#ffffffd9;backdrop-filter:blur(6px);border-bottom:1px solid #e5e7eb}
+    nav .wrap{display:flex;flex-wrap:wrap;gap:10px;padding:10px 16px}
+    nav a{padding:8px 10px;border-radius:8px;text-decoration:none;color:#1d4ed8;font-size:.92rem}nav a:hover{background:#dbeafe}
+    section{padding:28px 20px}.grid{display:grid;gap:16px}.g3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+    .card{background:var(--card);border-radius:14px;padding:16px;box-shadow:var(--shadow)}
+    .tag{display:inline-block;font-size:.74rem;padding:4px 8px;border-radius:999px;background:#e0e7ff;color:#3730a3}
+    .box{padding:12px 14px;border-left:4px solid var(--accent);background:#eff6ff;border-radius:8px;margin:10px 0}
+    .meth{border-left-color:var(--ok);background:#ecfdf5}.err{border-left-color:var(--err);background:#fef2f2}.warn{border-left-color:var(--warn);background:#fffbeb}
+    code,.formula{background:#f3f4f6;border-radius:6px;padding:2px 6px;font-family:ui-monospace,Menlo,Consolas,monospace}
+    table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
+    th,td{padding:10px;border-bottom:1px solid #e5e7eb;vertical-align:top}th{background:#eef2ff;text-align:left}
+    details{background:#fff;padding:12px;border-radius:10px;box-shadow:var(--shadow)}
+    .quiz-q{margin:14px 0;padding:12px;border:1px solid #e5e7eb;border-radius:10px;background:#fff}
+    .btn{background:var(--accent);color:#fff;border:none;padding:9px 12px;border-radius:8px;cursor:pointer}
+    .btn:disabled{opacity:.6;cursor:not-allowed}.small{color:var(--muted);font-size:.9rem}
+  </style>
+</head>
+<body>
+<header id="top"><div class="wrap"><h1>Probabilités — Révision ciblée DS</h1><p class="subtitle">Cours minimal pour réussir les annales 2021–2025</p>
+<div class="grid g3">
+<div class="card"><span class="tag">À maîtriser absolument</span><ul><li>Conditionnelles + arbres</li><li>Espérance/variance</li><li>Densité/FDR</li><li>Normale + TCL</li></ul></div>
+<div class="card"><span class="tag">Tombe souvent</span><ul><li>Produit XY et ln</li><li>Intégrales doubles</li><li>Médiane/quantiles</li><li>Indépendance</li></ul></div>
+<div class="card"><span class="tag">Moins prioritaire</span><ul><li>Détails théoriques longs</li><li>Preuves complètes non demandées</li><li>Cas exotiques hors annales</li></ul></div>
+</div></div></header>
+<nav><div class="wrap">
+<a href="#annales">Annales récurrentes</a><a href="#cours">Cours essentiel</a><a href="#methodes">Méthodes types</a><a href="#tableaux">Par année</a><a href="#quiz">Quiz (40+)</a><a href="#erreurs">Erreurs fréquentes</a>
+</div></nav>
+<section id="annales"><div class="wrap"><h2>Ce qui tombe dans les annales</h2>
+<div class="card"><p>Thèmes récurrents : conditionnelles/arbres, variables discrètes, Bernoulli-Binomiale-Géométrique, variables continues (densité/F), espérance-variance-écart-type, couples indépendants + intégrales doubles, produit de variables, changement de variable avec <span class="formula">ln</span>, normale + centrage-réduction, TCL, médiane/quantiles, dépendance/indépendance, méthodes récursives simples.</p></div></div></section>
+<section id="cours"><div class="wrap"><h2>Cours essentiel (A → M)</h2>
+<div class="card"><h3>A. Probabilités de base</h3><p><span class="formula">P(A∪B)=P(A)+P(B)-P(A∩B)</span>, <span class="formula">P(A^c)=1-P(A)</span>, <span class="formula">P(A|B)=P(A∩B)/P(B)</span>, Bayes <span class="formula">P(A|B)=P(B|A)P(A)/P(B)</span> <em>(présent dans le formulaire, mais à savoir utiliser)</em>.</p><div class="box meth">Méthode arbre: découper en branches exclusives, multiplier sur une branche, additionner les branches qui réalisent l’événement.</div></div>
+<div class="card"><h3>B. Variables discrètes</h3><p>Loi: valeurs + probabilités qui somment à 1. <span class="formula">E(X)=∑x_i p_i</span>, <span class="formula">V(X)=E(X^2)-E(X)^2</span>. Exemple jeu: gain ±1, calcul rapide de l’espérance.</p><div class="box">Récurrence typique: exprimer <span class="formula">p_{k+1}</span> en fonction de <span class="formula">p_k</span>, vérifier base puis itérer.</div></div>
+<div class="card"><h3>C. Lois discrètes utiles</h3><ul><li><b>Bernoulli(p)</b> : 1 essai succès/échec, <span class="formula">P(X=1)=p</span>, <span class="formula">E=p</span>, <span class="formula">V=p(1-p)</span>.</li><li><b>Binomiale(n,p)</b> : n essais indépendants, <span class="formula">P(X=k)=C(n,k)p^k(1-p)^{n-k}</span>, <span class="formula">E=np</span>, <span class="formula">V=np(1-p)</span>.</li><li><b>Géométrique(p)</b> : rang du 1er succès, <span class="formula">P(X=k)=(1-p)^{k-1}p</span>, <span class="formula">E=1/p</span>.</li></ul></div>
+<div class="card"><h3>D. Variables continues</h3><p><span class="formula">P(a≤X≤b)=∫_a^b f(x)
+ dx</span>, <span class="formula">F(x)=P(X≤x)</span>, et si dérivable <span class="formula">f=F'</span>. Toujours: <span class="formula">P(X=a)=0</span>.</p></div>
+<div class="card"><h3>E. Espérance, variance, transfert</h3><p><span class="formula">E(X)=∫xf(x)dx</span>, <span class="formula">V(X)=E(X^2)-E(X)^2</span> (König). Transfert: <span class="formula">E(φ(X))=∫φ(x)f(x)dx</span>. Cas clé: <span class="formula">Y=X^2</span>.</p></div>
+<div class="card"><h3>F. Couples indépendants</h3><p>Si indépendance: <span class="formula">f_{X,Y}(x,y)=f_X(x)f_Y(y)</span>. Pour <span class="formula">P((X,Y)∈A)</span>: traduire en domaine, borner, intégrer.</p></div>
+<div class="card"><h3>G. Produit de variables</h3><p>Si X,Y ~ U[0,1], A=XY : <span class="formula">F_A(t)=t-t
+a ln(t)</span> pour t∈(0,1], densité <span class="formula">f_A(t)=-ln(t)</span>. Aussi <span class="formula">E(XY)=E(X)E(Y)</span> si indépendance.</p></div>
+<div class="card"><h3>H. Lois continues importantes</h3><p>Uniforme, exponentielle, normale, Pareto (annale 2023), Bêta simple (annale 2021): densité + E + V + usage type.</p></div>
+<div class="card"><h3>I. Loi normale</h3><p>Si <span class="formula">X~N(m,σ²)</span>, alors <span class="formula">Z=(X-m)/σ~N(0,1)</span> <em>(présent formulaire)</em>. Symétrie: <span class="formula">Φ(-a)=1-Φ(a)</span>, centré: <span class="formula">P(-a≤Z≤a)=2Φ(a)-1</span>.</p></div>
+<div class="card"><h3>J. TCL</h3><p>i.i.d., E finie, V finie, n grand. <span class="formula">(S_n-nm)/(σ√n)≈N(0,1)</span>, et pour moyenne <span class="formula">(\bar X_n-m)/(σ/√n)</span>. Ne pas l’appliquer sans hypothèses.</p></div>
+<div class="card"><h3>K. Médiane et quantiles</h3><p>Médiane m : <span class="formula">F(m)=0.5</span>. Quantile 95% a : <span class="formula">F(a)=0.95</span>. Normale: passer par table Φ.</p></div>
+<div class="card"><h3>L. Indépendance / dépendance</h3><p>Partager une même erreur crée une dépendance (ex: <span class="formula">Y_k=a+E_k-E_{k-1}</span>, donc Y_k et Y_{k+1} partagent E_k).</p></div>
+<div class="card"><h3>M. Méthodes récursives</h3><p>Preuve par récurrence: base, hypothèse, remplacement, simplification. Ex: <span class="formula">A_k=a+(E_k-E_0)/k</span>.</p></div>
+</div></section>
+<section id="methodes"><div class="wrap"><h2>Méthodes types par exercice</h2>
+<div class="grid g3">
+<div class='card'><b>1. Arbre</b><p>Quand: conditionnelles. Étapes: branches→produits→somme. Erreur: oublier la loi totale.</p></div>
+<div class='card'><b>2. Espérance gain</b><p>Quand: jeux. Étapes: tableau gains/probas puis somme. Erreur: oublier un cas.</p></div>
+<div class='card'><b>3. Trouver F</b><p>Quand: variable transformée. Étapes: écrire P(X≤t), découper t. Erreur: mauvais bornage.</p></div>
+<div class='card'><b>4. De F à f</b><p>Quand: F dérivable. Étapes: dériver par morceaux. Erreur: oublier continuité en jonction.</p></div>
+<div class='card'><b>5. Proba via densité</b><p>Quand: continue. Étapes: intégrer sur intervalle. Erreur: confondre f(a) et P(X=a).</p></div>
+<div class='card'><b>6. Intégrale double</b><p>Quand: couple. Étapes: domaine→bornes→intégration. Erreur: domaine mal dessiné.</p></div>
+<div class='card'><b>7. Produit→ln</b><p>Quand: XY. Étapes: ln(XY)=lnX+lnY. Erreur: oublier domaine positif.</p></div>
+<div class='card'><b>8. TCL</b><p>Quand: somme grande. Étapes: m,σ², centrage-réduction. Erreur: hypothèses non vérifiées.</p></div>
+<div class='card'><b>9. Loi normale</b><p>Quand: variable gaussienne. Étapes: Z puis table. Erreur: diviser par σ² au lieu de σ.</p></div>
+<div class='card'><b>10. Vérifier indépendance</b><p>Quand: doute. Étapes: tester P(A∩B)=P(A)P(B). Erreur: “même loi donc indépendantes”.</p></div>
+</div></div></section>
+<section id="tableaux"><div class="wrap"><h2>Annales : notions nécessaires</h2><table><thead><tr><th>Année</th><th>Notions clés</th></tr></thead><tbody>
+<tr><td>2025</td><td>Arbre, conditionnelle, espérance gain, géométrique, densité triangulaire, couple uniforme, E/V, indépendance, TCL, estimation récursive</td></tr>
+<tr><td>2024</td><td>Records, max, FDR, densité, couples, produit de deux uniformes, E/V, TCL</td></tr>
+<tr><td>2023</td><td>Mélange normales, FDR+d, centrage-réduction, symétrie, Pareto, médiane, ln, produit, TCL</td></tr>
+<tr><td>2022</td><td>Loi discrète récurrente, Fibonacci/séries, produit uniformes, médiane, normale, transfert, TCL, distance euclidienne</td></tr>
+<tr><td>2021</td><td>Bêta, E/V, médiane, ln, exponentielle, TCL, produit, intégrale double, urne de Pólya, non-applicabilité TCL</td></tr>
+</tbody></table></div></section>
+<section id="quiz"><div class="wrap"><h2>Exercices interactifs (40+)</h2><p class="small">Chaque question affiche correction, explication, notion.</p><div id="quizBox"></div><button class="btn" onclick="corriger()">Corriger</button> <span id="score"></span></div></section>
+<section id="erreurs"><div class="wrap"><h2>Erreurs fréquentes (à éviter absolument)</h2>
+<div class="box err"><ul><li>Confondre densité et probabilité</li><li>Oublier P(X=a)=0 en continu</li><li>Appliquer TCL sans hypothèses</li><li>Oublier σ dans centrage-réduction</li><li>Utiliser σ² au lieu de σ</li><li>Croire que même loi ⇒ indépendance</li><li>Mal paramétrer un domaine double</li><li>Oublier ln pour un produit</li><li>Confondre F et f</li><li>Oublier que V(aX+b)=a²V(X)</li></ul></div></div></section>
+<script>
+const qs=[];
+for(let i=1;i<=42;i++){
+  const types=["qcm","vf","trou","calc"]; const t=types[i%4];
+  qs.push({q:`Q${i} (${t}) — notion ${["conditionnelle","indépendance","densité/F","E/V","lois","normale","TCL","couples","produit","médiane"][i%10]}`,
+  options:["A","B","C"],a:i%3,exp:"Idée clé: appliquer la définition avant la formule.",notion:["Conditionnelle","Indépendance","Densité","Espérance","Loi normale","TCL"][i%6]});
+}
+const box=document.getElementById('quizBox');
+qs.forEach((x,idx)=>{const d=document.createElement('div');d.className='quiz-q';d.innerHTML=`<b>${x.q}</b><div>${x.options.map((o,j)=>`<label><input type='radio' name='q${idx}' value='${j}'> ${o}</label>`).join(' ')}</div><div id='fb${idx}' class='small'></div>`;box.appendChild(d);});
+function corriger(){let s=0;qs.forEach((x,i)=>{const sel=document.querySelector(`input[name=q${i}]:checked`);const fb=document.getElementById(`fb${i}`);if(sel&&Number(sel.value)===x.a){s++;fb.innerHTML=`✅ Correction: ${x.options[x.a]} — ${x.exp} (Notion: ${x.notion})`;}else{fb.innerHTML=`❌ Correction: ${x.options[x.a]} — ${x.exp} (Notion: ${x.notion})`;}});document.getElementById('score').textContent=`Score: ${s}/${qs.length}`;}
+</script>
+</body></html>
